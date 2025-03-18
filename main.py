@@ -1,7 +1,10 @@
 import sqlite3
 
 def getQuestion(level):
+    db = sqlite3.connect('database.db')
+    cursor = db.cursor()
     
+    pass
 
 def leaderboard(userID, mode, level):
     pass
