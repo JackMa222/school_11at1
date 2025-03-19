@@ -13,3 +13,15 @@ CREATE TABLE leaderboard(
     username TEXT,
     FOREIGN KEY(userID) REFERENCES users(id)
 );
+
+CREATE TABLE levels(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    level INTEGER NOT NULL,
+    additionMin INTEGER,
+    additionMax INTEGER,
+    subtractionMin INTEGER,
+    subtractionMax INTEGER,
+    multiplicationTimesTables TEXT,
+    divisionTimesTables TEXT,
+    levelOperations TEXT 
+);
