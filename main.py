@@ -2,13 +2,17 @@ import sqlite3
 from datetime import datetime, timedelta
 
 def getQuestion(level):
-    db = sqlite3.connect('database.db')
-    cursor = db.cursor()
     
     pass
 
 def leaderboard(userID, mode, level):
-    pass
+    db = sqlite3.connect('database.db')
+    cursor = db.cursor()
+    cursor.execute("SELECT score, username FROM leaderboard WHERE mode = ? AND level = ? ORDER BY score DESC LIMIT 5", (level, ))
+    top_scores = cursor.fetchall()
+    print(top_scores)
+    db.closer()
+    # TODO UNFINISHIED
 
 def addLeaderboard(userID, mode, level, score):
         db = sqlite3.connect('database.db')
