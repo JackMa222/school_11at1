@@ -10,5 +10,6 @@ CREATE TABLE leaderboard(
     mode INTEGER NOT NULL,
     level INTEGER NOT NULL,
     score INTEGER NOT NULL,
+    username TEXT,
     FOREIGN KEY(userID) REFERENCES users(id)
 );
