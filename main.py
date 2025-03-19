@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime, timedelta
 
 def getQuestion(level):
     db = sqlite3.connect('database.db')
@@ -9,11 +10,61 @@ def getQuestion(level):
 def leaderboard(userID, mode, level):
     pass
 
-def timed(userID, level):
+def addLeaderboard(userID, mode, level, score):
     pass
 
+def timed(userID, level):
+    time = 30
+    score = 0
+    initialTime = datetime.datetime.now()
+    endTime = initialTime + timedelta(seconds=time)
+    while True:
+        question, answer = getQuestion(level)
+        print(question)
+        userAnswer = input("Answer: ")
+        try:
+            intUserAnswer = int(userAnswer)
+        except:
+            print("Error - answer must be a number")
+        else:
+            if intUserAnswer == answer and datetime.datetime.now() < endTime:
+                score = score + 1
+            elif datetime.datetime.now() >= endTime:
+                print("Out of time, answer will not count")
+            else:
+                print("Incorrect")
+        if datetime.datetime.now() >= endTime:
+            break
+    print('Times up')
+    print(f"Score {score}")
+    position, personalPosition = addLeaderboard(userID, 0, level, score)
+    print(f"You ranked #{position} on the global leaderboard for Level {level} for the Timed mode")
+    print(f"You ranked #{personalPosition} on your personal leaderboard for Level {level} for the Time mode")
+    
+
 def streak(userID, level):
-    pass
+    score = 0
+    while True:
+        question, answer = getQuestion(level)
+        print(question)
+        userAnswer = input("Answer: ")
+        try:
+            intUsernswer = int(userAnswer)
+        except:
+            print("Error - answer must be a number")
+            break
+        else:
+            if userAnswer == answer:
+                score += 1
+                print("Correct")
+            else:
+                print("Incorrect")
+                break
+    print("Game over")
+    print(f"Score {score}")
+    position, personalPosition = addLeaderboard(userID, 1, level, score)
+    print(f"You ranked #{position} on the global leaderboard for Level {level} for the Streak mode")
+    print(f"You ranked #{personalPosition} on your personal leaderboard for Level {level} for the Streak mode")
 
 def main(userID):
     #TODO Finish display options
