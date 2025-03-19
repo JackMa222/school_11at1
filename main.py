@@ -11,7 +11,16 @@ def leaderboard(userID, mode, level):
     pass
 
 def addLeaderboard(userID, mode, level, score):
-    pass
+        db = sqlite3.connect('database.db')
+        cursor = db.cursor()
+        cursor.execute("INSERT INTO leaderboard (userID, mode, level, score) VALUES (?, ?, ?, ?)", userID, mode, level, score)
+        db.commit()
+        cursor.execute("""SELECT COUNT(*) + 1 FROM leaderboard WHERE mode = ? AND level = ? AND score > ?""", (mode, level, score))
+        position = cursor.fetchone()[0]
+        cursor.execute("""SELECT COUNT(*) + 1 FROM leaderboard WHERE userID = ? AND mode = ? AND level = ? AND score > ?""", (userID, mode, level, score))
+        personalPosition = cursor.fetchone()[0]
+        db.close()
+        return position, personalPosition
 
 def timed(userID, level):
     time = 30
