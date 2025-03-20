@@ -1,20 +1,62 @@
 import sqlite3
 from datetime import datetime, timedelta
+from json import loads
+from random import choice, randint
 
 def getQuestion(level):
     db = sqlite3.connect('database.db')
     cursor = db.cursor()
-    
-    
-    
+    cursor.execute("SELECT * FROM levels WHERE level = ? ORDER BY id DESC", (level, ))
+    levelData = cursor.fetchone()
+    additionMin = levelData[2]
+    addditionMax = levelData[3]
+    subtractionMin = levelData[4]
+    subtractionMax = levelData[5]
+    mutliplicationTimesTables = loads(levelData[6])
+    divisionTimesTables = loads(levelData[7])
+    levelsOperations = loads(levelData[8])
     
     db.close()
+    
+    operationOption = choice(levelsOperations)
+    # Operation option 0, 1, 2, 3 = Addition, Subtraction, Multiplication, Division respectively
+    
+    if operationOption == 0:
+      number1 = randint(additionMin, addditionMax)
+      number2 = randint(additionMin, addditionMax)
+      question = f"{number1} + {number2} = ?"
+      answer = number1 + number2
+    elif operationOption == 1:
+        number1 = randint(subtractionMin, subtractionMax)
+        while True:
+            number2 = randint(subtractionMin, subtractionMax)
+            answer = number1 - number2
+            if answer >= 0:
+                break
+        question = f"{number1} - {number2} = ?"
+    elif operationOption == 2:
+        number1 = choice(mutliplicationTimesTables)
+        number2 = choice(mutliplicationTimesTables)
+        answer = number1 * number2
+        question = f"{number1} x {number2} = ?"
+    elif operationOption == 3:
+        number2 = choice(divisionTimesTables)
+        answer = choice(divisionTimesTables)
+        number1 = number2 * answer
+        question = f"{number1} / {number2} = ?"
+    else:
+        question = "ERROR - No questions avaliable"
+        answer = "ERROR-GQ-1"
+    return question, answer
 
 def leaderboard(userID, mode, level):
     db = sqlite3.connect('database.db')
     cursor = db.cursor()
-    cursor.execute("SELECT score, username FROM leaderboard WHERE mode = ? AND level = ? ORDER BY score DESC LIMIT 5", (level, ))
+    cursor.execute("SELECT score, username FROM leaderboard WHERE mode = ? AND level = ? ORDER BY score DESC LIMIT 5", (mode, level))
     top_scores = cursor.fetchall()
+    print(f"Global leaderboard")
+    for counter, entry in enumerate(top_scores):
+        print(f"#{counter}: {entry[1]} ({entry[0]})")
     print(top_scores)
     db.close()
     # TODO UNFINISHIED
@@ -22,7 +64,8 @@ def leaderboard(userID, mode, level):
 def addLeaderboard(userID, mode, level, score):
         db = sqlite3.connect('database.db')
         cursor = db.cursor()
-        cursor.execute("INSERT INTO leaderboard (userID, mode, level, score) VALUES (?, ?, ?, ?)", userID, mode, level, score)
+        username = cursor.execute("SELECT username FROM users WHERE id = ?", (userID, )).fetchone()
+        cursor.execute("INSERT INTO leaderboard (userID, mode, level, score, username) VALUES (?, ?, ?, ?, ?)", (userID, mode, level, score, username[0]))
         db.commit()
         cursor.execute("""SELECT COUNT(*) + 1 FROM leaderboard WHERE mode = ? AND level = ? AND score > ?""", (mode, level, score))
         position = cursor.fetchone()[0]
@@ -34,7 +77,7 @@ def addLeaderboard(userID, mode, level, score):
 def timed(userID, level):
     time = 30
     score = 0
-    initialTime = datetime.datetime.now()
+    initialTime = datetime.now()
     endTime = initialTime + timedelta(seconds=time)
     while True:
         question, answer = getQuestion(level)
@@ -45,7 +88,7 @@ def timed(userID, level):
         except:
             print("Error - answer must be a number")
         else:
-            if intUserAnswer == answer and datetime.datetime.now() < endTime:
+            if intUserAnswer == answer and datetime.now() < endTime:
                 score = score + 1
             elif datetime.datetime.now() >= endTime:
                 print("Out of time, answer will not count")
@@ -72,7 +115,7 @@ def streak(userID, level):
             print("Error - answer must be a number")
             break
         else:
-            if userAnswer == answer:
+            if intUsernswer == answer:
                 score += 1
                 print("Correct")
             else:
@@ -122,7 +165,11 @@ def main(userID):
         else:
             if (type(level) == int) and (level >= minLevel) and (level <= maxLevel):
                 mode = input(f'S for Steak leaderboard or T for timed leaderboard (Level: {level}) ')
-                if mode.upper in ['S', 'T']:
+                if mode.upper() in ['S', 'T']:
+                    if mode.upper() == 'T':
+                        mode = 0
+                    elif mode.upper() == 'S':
+                        mode = 1
                     leaderboard(userID, mode, level)
                 else:
                     print('Error, mode must be S or T') 

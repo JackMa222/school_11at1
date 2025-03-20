@@ -13,7 +13,7 @@ Times Tables: 2, 3, 4, 5
 Level 4:
 Addition from 1 to 100
 Subtraction from 1 to 100
-Times Tables: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+Times Tables: 2, 3, 4, 5, 6, 7, 8, 9, 10
 Disiion Times Tables: 2, 3, 4, 5, 10
 
 Level 5:
