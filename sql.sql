@@ -25,6 +25,19 @@ CREATE TABLE levels(
     divisionTimesTables TEXT,
     levelOperations TEXT 
 );
+
+UPDATE levels
+SET divisionTimesTables = "null"
+WHERE level = 3;
+
+UPDATE levels
+SET multiplicationTimesTables = "null", divisionTimesTables = "null"
+WHERE level = 2;
+
+UPDATE levels
+SET multiplicationTimesTables = "null", divisionTimesTables = "null"
+WHERE level = 1;
+
 INSERT INTO levels
 (level, additionMin, additionMax, subtractionMin, subtractionMax,
  multiplicationTimesTables, divisionTimesTables, levelOperations)
