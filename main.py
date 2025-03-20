@@ -56,8 +56,7 @@ def leaderboard(userID, mode, level):
     top_scores = cursor.fetchall()
     print(f"Global leaderboard")
     for counter, entry in enumerate(top_scores):
-        print(f"#{counter}: {entry[1]} ({entry[0]})")
-    print(top_scores)
+        print(f"#{counter+1}: {entry[1]} ({entry[0]})")
     db.close()
     # TODO UNFINISHIED
 
@@ -90,11 +89,11 @@ def timed(userID, level):
         else:
             if intUserAnswer == answer and datetime.now() < endTime:
                 score = score + 1
-            elif datetime.datetime.now() >= endTime:
+            elif datetime.now() >= endTime:
                 print("Out of time, answer will not count")
             else:
                 print("Incorrect")
-        if datetime.datetime.now() >= endTime:
+        if datetime.now() >= endTime:
             break
     print('Times up')
     print(f"Score {score}")
