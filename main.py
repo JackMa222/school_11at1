@@ -168,7 +168,7 @@ def main(userID):
             print(f'Error, level must be be a number between {minLevel} and {maxLevel}')
         else:
             if (type(level) == int) and (level >= minLevel) and (level <= maxLevel):
-                mode = input(f'S for Steak leaderboard or T for timed leaderboard (Level: {level}) ')
+                mode = input(f'S for Streak leaderboard or T for timed leaderboard (Level: {level}) ')
                 if mode.upper() in ['S', 'T']:
                     if mode.upper() == 'T':
                         mode = 0
