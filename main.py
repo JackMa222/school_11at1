@@ -207,6 +207,8 @@ def login():
                     print('Username already exists, please try registering again')
                 elif len(username) < 1 or len(username) > 12:
                     print('Username must be between 1 and 12 characters')
+                elif len(username) > 12:
+                    print('Password must be between 0 and 12 characters. (Password can be empty)')
                 else:
                     cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
                     db.commit()
