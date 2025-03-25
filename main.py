@@ -205,12 +205,14 @@ def login():
                 user = cursor.execute("SELECT * FROM users WHERE username = ?", (username, )).fetchall()
                 if len(user) > 0:
                     print('Username already exists, please try registering again')
+                elif len(username) < 1 or len(username) > 12:
+                    print('Username must be between 1 and 12 characters')
                 else:
                     cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
                     db.commit()
                     db.close()
                     print('Account created successfully')
-    login() 
+    login()
           
     
 login()
