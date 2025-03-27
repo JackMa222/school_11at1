@@ -41,7 +41,7 @@ WHERE level = 1;
 INSERT INTO levels
 (level, additionMin, additionMax, subtractionMin, subtractionMax,
  multiplicationTimesTables, divisionTimesTables, levelOperations)
-VALUES (5, 1, 500, 1, 100, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]", "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]", "[0, 1, 2, 3]");
+VALUES (6, 1, 500, 1, 100, "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]", "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]", "[0, 1, 2, 3]");
 
 INSERT INTO levels
 (level, additionMin, additionMax, subtractionMin, subtractionMax,

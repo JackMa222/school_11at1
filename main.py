@@ -132,10 +132,11 @@ def streak(userID, level):
     print(f"You ranked #{personalPosition} on your personal leaderboard for Level {level} for the Streak mode")
 
 def main(userID):
-    #TODO Finish display options
     menuChoice = input('T for timed, S for streak game and L for leaderboard. Any other key to logout ').upper()
-    minLevel = 1
-    maxLevel = 6  
+    db = sqlite3.connect('database.db')
+    cursor = db.cursor()
+    minLevel = cursor.execute("SELECT MIN(level) FROM levels").fetchone()[0]
+    maxLevel = cursor.execute("SELECT MAX(level) FROM levels").fetchone()[0]
     if menuChoice not in ['T', 'S', 'L']:
         login()
     elif menuChoice == 'T':
@@ -214,7 +215,6 @@ def login():
                     db.commit()
                     db.close()
                     print('Account created successfully')
-    login()
-          
+    login()       
     
 login()
