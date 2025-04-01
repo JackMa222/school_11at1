@@ -9,10 +9,10 @@ def getQuestion(level):
     cursor.execute("SELECT * FROM levels WHERE level = ? ORDER BY id DESC", (level, ))
     levelData = cursor.fetchone()
     additionMin = levelData[2]
-    addditionMax = levelData[3]
+    additionMax = levelData[3]
     subtractionMin = levelData[4]
     subtractionMax = levelData[5]
-    mutliplicationTimesTables = loads(levelData[6])
+    multiplicationTimesTables = loads(levelData[6])
     divisionTimesTables = loads(levelData[7])
     levelsOperations = loads(levelData[8])
     
@@ -22,8 +22,8 @@ def getQuestion(level):
     # Operation option 0, 1, 2, 3 = Addition, Subtraction, Multiplication, Division respectively
     
     if operationOption == 0:
-      number1 = randint(additionMin, addditionMax)
-      number2 = randint(additionMin, addditionMax)
+      number1 = randint(additionMin, additionMax)
+      number2 = randint(additionMin, additionMax)
       question = f"{number1} + {number2} = ?"
       answer = number1 + number2
     elif operationOption == 1:
@@ -35,8 +35,8 @@ def getQuestion(level):
                 break
         question = f"{number1} - {number2} = ?"
     elif operationOption == 2:
-        number1 = choice(mutliplicationTimesTables)
-        number2 = choice(mutliplicationTimesTables)
+        number1 = choice(multiplicationTimesTables)
+        number2 = choice(multiplicationTimesTables)
         answer = number1 * number2
         question = f"{number1} x {number2} = ?"
     elif operationOption == 3:
@@ -114,12 +114,12 @@ def streak(userID, level):
         print(question)
         userAnswer = input("Answer: ")
         try:
-            intUsernswer = int(userAnswer)
+            intUserAnswer = int(userAnswer)
         except:
             print("Error - answer must be a number")
             break
         else:
-            if intUsernswer == answer:
+            if intUserAnswer == answer:
                 score += 1
                 print("Correct")
             else:
