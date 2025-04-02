@@ -57,12 +57,16 @@ def leaderboard(userID, mode, level):
     print(f"Global leaderboard")
     for counter, entry in enumerate(top_scores):
         print(f"#{counter+1}: {entry[1]} ({entry[0]})")
+    if not top_scores:
+        print("No scores available for this leaderboard.")
         
     cursor.execute("SELECT score, username FROM leaderboard WHERE mode = ? AND level = ? and userID = ? ORDER BY score DESC LIMIT 5", (mode, level, userID))
     top_scores = cursor.fetchall()
     print(f"Personal leaderboard")
     for counter, entry in enumerate(top_scores):
         print(f"#{counter+1}: {entry[1]} ({entry[0]})")
+    if not top_scores:
+        print("No scores available for this leaderboard.")
     db.close()
 
 def addLeaderboard(userID, mode, level, score):
