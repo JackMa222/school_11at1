@@ -208,13 +208,16 @@ def login():
                     main(userID)
             elif accountChoice.upper() == 'R':
                 user = cursor.execute("SELECT * FROM users WHERE username = ?", (username, )).fetchall()
+                db.close()
                 if len(user) > 0:
                     print('Username already exists, please try registering again')
                 elif len(username) < 1 or len(username) > 12:
                     print('Username must be between 1 and 12 characters')
-                elif len(username) > 12:
+                elif len(password) > 12:
                     print('Password must be between 0 and 12 characters. (Password can be empty)')
                 else:
+                    db = sqlite3.connect('database.db')
+                    cursor = db.cursor()
                     cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
                     db.commit()
                     db.close()
