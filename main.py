@@ -45,8 +45,8 @@ def getQuestion(level):
         number1 = number2 * answer
         question = f"{number1} / {number2} = ?"
     else:
-        question = "ERROR - No questions avaliable"
-        answer = "ERROR-GQ-1"
+        question = "ERROR - No questions avaliable, press enter to continue"
+        answer = ""
     return question, answer
 
 def leaderboard(userID, mode, level):
