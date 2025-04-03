@@ -70,17 +70,17 @@ def leaderboard(userID, mode, level):
     db.close()
 
 def addLeaderboard(userID, mode, level, score):
-        db = sqlite3.connect('database.db')
-        cursor = db.cursor()
-        username = cursor.execute("SELECT username FROM users WHERE id = ?", (userID, )).fetchone()
-        cursor.execute("INSERT INTO leaderboard (userID, mode, level, score, username) VALUES (?, ?, ?, ?, ?)", (userID, mode, level, score, username[0]))
-        db.commit()
-        cursor.execute("""SELECT COUNT(*) + 1 FROM leaderboard WHERE mode = ? AND level = ? AND score > ?""", (mode, level, score))
-        position = cursor.fetchone()[0]
-        cursor.execute("""SELECT COUNT(*) + 1 FROM leaderboard WHERE userID = ? AND mode = ? AND level = ? AND score > ?""", (userID, mode, level, score))
-        personalPosition = cursor.fetchone()[0]
-        db.close()
-        return position, personalPosition
+    db = sqlite3.connect('database.db')
+    cursor = db.cursor()
+    username = cursor.execute("SELECT username FROM users WHERE id = ?", (userID, )).fetchone()
+    cursor.execute("INSERT INTO leaderboard (userID, mode, level, score, username) VALUES (?, ?, ?, ?, ?)", (userID, mode, level, score, username[0]))
+    db.commit()
+    cursor.execute("""SELECT COUNT(*) + 1 FROM leaderboard WHERE mode = ? AND level = ? AND score > ?""", (mode, level, score))
+    position = cursor.fetchone()[0]
+    cursor.execute("""SELECT COUNT(*) + 1 FROM leaderboard WHERE userID = ? AND mode = ? AND level = ? AND score > ?""", (userID, mode, level, score))
+    personalPosition = cursor.fetchone()[0]
+    db.close()
+    return position, personalPosition
 
 def timed(userID, level):
     time = 30
@@ -136,7 +136,7 @@ def streak(userID, level):
     print(f"You ranked #{personalPosition} on your personal leaderboard for Level {level} for the Streak mode")
 
 def main(userID):
-    menuChoice = input('T for timed, S for streak game and L for leaderboard. Any other key to logout ').upper()
+    menuChoice = input('Enter T for timed, S for streak game and L for leaderboard. Any other key to logout ').upper()
     db = sqlite3.connect('database.db')
     cursor = db.cursor()
     minLevel = cursor.execute("SELECT MIN(level) FROM levels").fetchone()[0]
@@ -173,7 +173,7 @@ def main(userID):
             print(f'Error, level must be be a number between {minLevel} and {maxLevel}')
         else:
             if (type(level) == int) and (level >= minLevel) and (level <= maxLevel):
-                mode = input(f'S for Streak leaderboard or T for timed leaderboard (Level: {level}) ')
+                mode = input(f'Enter S for Streak leaderboard or T for timed leaderboard (Level: {level}) ')
                 if mode.upper() in ['S', 'T']:
                     if mode.upper() == 'T':
                         mode = 0
@@ -187,7 +187,7 @@ def main(userID):
     main(userID)
 
 def login():
-    accountChoice = input("Select L for login, R for register or any other key to exit: ")
+    accountChoice = input("Enter L for login, R for register or any other key to exit: ")
     if accountChoice.upper() not in ['L', 'R']:
         exit()
     else:
